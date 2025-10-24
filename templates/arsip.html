@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arsip Digital - Desa Sumber Jaya</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="wrapper">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fa-solid fa-landmark"></i> Sumber Jaya</h2>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="/dashboard"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
+                <li><a href="/arsip-digital" class="active"><i class="fa-solid fa-folder-open"></i> Arsip Digital</a></li>
+                <li><a href="/manajemen-surat"><i class="fa-solid fa-envelope"></i> Manajemen Surat</a></li>
+                <li class="logout"><a href="/"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+            </ul>
+        </nav>
+        <main class="main-content">
+            <header><h1>Arsip Digital</h1><p>Kelola semua dokumen dan arsip digital desa.</p></header>
+            <section class="content-box">
+                <div class="table-toolbar"><p class="m-0">Total {{ documents|length }} dokumen ditemukan.</p><a href="/tambah-arsip" class="btn-primary"><i class="fa-solid fa-plus"></i> Tambah Arsip</a></div>
+                <table class="data-table">
+                    <thead><tr><th>Nama Dokumen</th><th>Kategori</th><th>NIK</th><th>Tanggal Unggah</th><th>Aksi</th></tr></thead>
+                    <tbody>
+                        {% for doc in documents %}
+                        <tr><td>{{ doc.nama_dokumen }}</td><td>{{ doc.kategori.replace("_", " ") }}</td><td>{{ doc.nik_dokumen or '-' }}</td><td>{{ doc.tanggal_upload.strftime('%d %b %Y') }}</td>
+                            <td class="action-buttons"><a href="{{ url_for('serve_archived_file', filename=doc.nama_arsip) }}" target="_blank" title="Lihat"><i class="fa-solid fa-eye"></i></a></td></tr>
+                        {% else %}
+                        <tr><td colspan="5" class="text-center py-5 text-muted">Belum ada dokumen. Klik 'Tambah Arsip' untuk memulai.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

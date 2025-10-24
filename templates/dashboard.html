@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Desa Sumber Jaya</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="wrapper">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fa-solid fa-landmark"></i> Sumber Jaya</h2>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="/dashboard" class="active"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
+                <li><a href="/arsip-digital"><i class="fa-solid fa-folder-open"></i> Arsip Digital</a></li>
+                <li><a href="/manajemen-surat"><i class="fa-solid fa-envelope"></i> Manajemen Surat</a></li>
+                <li class="logout"><a href="/"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+            </ul>
+        </nav>
+        <main class="main-content">
+            <header>
+                <h1>Dashboard</h1>
+                <p>Selamat datang di Sistem Arsip Digital & Manajemen Surat Desa Sumber Jaya.</p>
+            </header>
+            <section class="content-box">
+                <h2>Ringkasan</h2>
+                <p>Silakan pilih menu di samping untuk memulai pekerjaan.</p>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

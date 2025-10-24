@@ -1,0 +1,67 @@
+/* Import Font dari Google Fonts dan Ikon dari Font Awesome */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css');
+
+:root {
+    --primary-color: #0d6efd;
+    --secondary-color: #6c757d;
+    --bg-color: #f0f2f5;
+    --sidebar-bg: #1e293b;
+    --card-bg: #ffffff;
+    --text-color: #334155;
+    --text-light: #e2e8f0;
+    --border-color: #e2e8f0;
+    --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+/* === LOGIN PAGE === */
+.login-container{display:flex;justify-content:center;align-items:center;min-height:100vh;background:linear-gradient(135deg, #3a7bd5, #00d2ff)}
+.login-box{background:var(--card-bg);padding:40px;border-radius:12px;box-shadow:var(--shadow);width:100%;max-width:400px;text-align:center}
+.login-box h1{margin-bottom:10px;color:var(--text-color)}
+.login-box p{margin-bottom:30px;color:#64748b}
+.input-group{margin-bottom:20px;text-align:left}
+.input-group label{display:block;margin-bottom:5px;font-weight:500}
+.input-group input{width:100%;padding:12px;border:1px solid var(--border-color);border-radius:8px;font-size:16px}
+.btn-login{width:100%;padding:12px;border:none;border-radius:8px;background-color:var(--primary-color);color:#fff;font-size:16px;font-weight:600;cursor:pointer;transition:background-color .3s}
+.btn-login:hover{background-color:#0b5ed7}
+
+/* === MAIN DASHBOARD LAYOUT === */
+.wrapper { display: flex; }
+.sidebar { width: 260px; background: var(--sidebar-bg); color: var(--text-light); min-height: 100vh; padding: 20px; position: fixed; left: 0; top: 0; }
+.sidebar-header { margin-bottom: 40px; text-align: center; }
+.sidebar-header h2 { font-size: 24px; }
+.sidebar-header h2 i { margin-right: 10px; }
+.sidebar-menu { list-style: none; padding: 0; }
+.sidebar-menu a { display: flex; align-items: center; color: var(--text-light); padding: 15px 20px; margin-bottom: 10px; border-radius: 8px; transition: background-color 0.3s; font-weight: 500; text-decoration: none; }
+.sidebar-menu a i { margin-right: 15px; width: 20px; text-align: center; }
+.sidebar-menu a:hover, .sidebar-menu a.active { background-color: #334155; }
+.logout { position: absolute; bottom: 20px; width: calc(100% - 40px); }
+.main-content { margin-left: 260px; padding: 30px; width: calc(100% - 260px); }
+.main-content header { margin-bottom: 30px; }
+.main-content header h1 { font-size: 28px; margin-bottom: 5px; }
+.main-content header p { color: #64748b; }
+
+/* === COMPONENTS === */
+.content-box { background: var(--card-bg); padding: 25px; border-radius: 12px; box-shadow: var(--shadow); margin-top: 20px; }
+.table-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.search-bar { width: 300px; padding: 10px; border: 1px solid var(--border-color); border-radius: 8px; }
+.btn-primary { background: var(--primary-color); color: #fff; padding: 10px 20px; border-radius: 8px; font-weight: 500; transition: background-color 0.3s; text-decoration: none; border: none; cursor: pointer; }
+.btn-primary:hover { background: #0b5ed7; }
+.data-table { width: 100%; border-collapse: collapse; }
+.data-table th, .data-table td { padding: 15px; text-align: left; border-bottom: 1px solid var(--border-color); }
+.data-table th { font-weight: 600; color: #64748b; }
+.data-table tbody tr:hover { background-color: #f8fafc; }
+.action-buttons a { margin-right: 10px; font-size: 16px; color: #64748b; text-decoration: none; }
+.action-buttons a:hover { color: var(--primary-color); }
