@@ -1,222 +1,61 @@
-<!-- templates/surat.html -->
-<section class="content-box">
-  <h2>Buat Surat Baru</h2>
-  <p>Pilih jenis surat, isi data yang relevan, lalu klik "Buat & Cetak Surat".</p>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen Surat - Desa Sumber Jaya</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="wrapper">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fa-solid fa-landmark"></i> Sumber Jaya</h2>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="dashboard.html"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
+                <li><a href="surat.html" class="active"><i class="fa-solid fa-envelope"></i> Manajemen Surat</a></li>
+                <li><a href="arsip.html"><i class="fa-solid fa-folder-open"></i> Arsip Digital</a></li>
+                <li><a href="#"><i class="fa-solid fa-users"></i> Manajemen Warga</a></li>
+                <li><a href="#"><i class="fa-solid fa-gear"></i> Pengaturan</a></li>
+                <li class="logout"><a href="login.html"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+            </ul>
+        </nav>
 
-  <form id="suratForm" method="POST" action="{{ url_for('manajemen_surat') }}" style="margin-top:20px;">
-    <div class="form-grid" style="gap:12px;">
-      <div class="input-group" style="grid-column: 1 / -1;">
-        <label for="jenis_surat">Jenis Surat</label>
-        <select id="jenis_surat" name="jenis_surat" required>
-          <option value="domisili">Surat Domisili</option>
-          <option value="sktm">Surat Keterangan Tidak Mampu (SKTM)</option>
-          <option value="sku">Surat Keterangan Usaha (SKU)</option>
-          <option value="kematian">Surat Keterangan Kematian</option>
-        </select>
-      </div>
+        <main class="main-content">
+            <header>
+                <h1>Manajemen Surat</h1>
+                <p>Buat surat baru berdasarkan template atau lihat riwayat surat yang pernah dibuat.</p>
+            </header>
 
-      <!-- COMMON: fields used by many templates -->
-      <div class="input-group">
-        <label for="nama_pemohon">Nama Lengkap</label>
-        <input type="text" id="nama_pemohon" name="nama_pemohon" placeholder="Masukkan nama..." >
-      </div>
-
-      <div class="input-group">
-        <label for="nik_pemohon">NIK</label>
-        <input type="text" id="nik_pemohon" name="nik_pemohon" placeholder="Masukkan NIK...">
-      </div>
-
-      <div class="input-group">
-        <label for="alamat_lengkap">Alamat Lengkap</label>
-        <input type="text" id="alamat_lengkap" name="alamat_lengkap" placeholder="Dusun / RT/RW / Desa / Kec / Kab">
-      </div>
-
-      <div class="input-group">
-        <label for="keperluan">Keperluan</label>
-        <input type="text" id="keperluan" name="keperluan" placeholder="Contoh: Mengurus KTP">
-      </div>
-
-      <!-- FIELDS DOMISILI -->
-      <div class="group group-domisili" style="display:none; grid-column: 1 / -1;">
-        <h4>Data Domisili</h4>
-        <div class="input-group">
-          <label for="tempat_lahir">Tempat Lahir</label>
-          <input type="text" id="tempat_lahir" name="tempat_lahir">
-        </div>
-        <div class="input-group">
-          <label for="tanggal_lahir">Tanggal Lahir</label>
-          <input type="date" id="tanggal_lahir" name="tanggal_lahir">
-        </div>
-        <div class="input-group">
-          <label for="jenis_kelamin">Jenis Kelamin</label>
-          <input type="text" id="jenis_kelamin" name="jenis_kelamin" placeholder="Laki-laki / Perempuan">
-        </div>
-        <div class="input-group">
-          <label for="agama">Agama</label>
-          <input type="text" id="agama" name="agama" placeholder="Islam / Kristen / dst.">
-        </div>
-        <div class="input-group">
-          <label for="status_perkawinan">Status Perkawinan</label>
-          <input type="text" id="status_perkawinan" name="status_perkawinan" placeholder="Kawin / Belum Kawin">
-        </div>
-      </div>
-
-      <!-- FIELDS SKTM -->
-      <div class="group group-sktm" style="display:none; grid-column: 1 / -1;">
-        <h4>Data SKTM</h4>
-        <div class="input-group">
-          <label for="nama">Nama (SKTM)</label>
-          <input type="text" id="nama" name="nama">
-        </div>
-        <div class="input-group">
-          <label for="tempat_lahir_sktm">Tempat Lahir</label>
-          <input type="text" id="tempat_lahir_sktm" name="tempat_lahir">
-        </div>
-        <div class="input-group">
-          <label for="tanggal_lahir_sktm">Tanggal Lahir</label>
-          <input type="date" id="tanggal_lahir_sktm" name="tanggal_lahir">
-        </div>
-        <div class="input-group">
-          <label for="pekerjaan">Pekerjaan</label>
-          <input type="text" id="pekerjaan" name="pekerjaan" placeholder="Contoh: Mengurus Rumah Tangga">
-        </div>
-        <div class="input-group">
-          <label for="kategori_kemiskinan">Kategori Kemiskinan</label>
-          <input type="text" id="kategori_kemiskinan" name="kategori_kemiskinan" placeholder="Pra Sejahtera / dsb.">
-        </div>
-      </div>
-
-      <!-- FIELDS SKU -->
-      <div class="group group-sku" style="display:none; grid-column: 1 / -1;">
-        <h4>Data SKU</h4>
-        <div class="input-group">
-          <label for="nama_pemilik">Nama Pemilik</label>
-          <input type="text" id="nama_pemilik" name="nama_pemilik">
-        </div>
-        <div class="input-group">
-          <label for="nik_pemilik">NIK Pemilik</label>
-          <input type="text" id="nik_pemilik" name="nik_pemilik">
-        </div>
-        <div class="input-group">
-          <label for="nama_usaha">Nama Usaha</label>
-          <input type="text" id="nama_usaha" name="nama_usaha">
-        </div>
-        <div class="input-group">
-          <label for="bidang_usaha">Bidang Usaha</label>
-          <input type="text" id="bidang_usaha" name="bidang_usaha">
-        </div>
-        <div class="input-group">
-          <label for="alamat_usaha">Alamat Usaha</label>
-          <input type="text" id="alamat_usaha" name="alamat_usaha">
-        </div>
-        <div class="input-group">
-          <label for="tahun_operasi">Tahun Operasi</label>
-          <input type="text" id="tahun_operasi" name="tahun_operasi" placeholder="Contoh: 2022">
-        </div>
-      </div>
-
-      <!-- FIELDS KEMATIAN -->
-      <div class="group group-kematian" style="display:none; grid-column: 1 / -1;">
-        <h4>Data Kematian</h4>
-        <div class="input-group">
-          <label for="nama_almarhum">Nama Almarhum</label>
-          <input type="text" id="nama_almarhum" name="nama_almarhum">
-        </div>
-        <div class="input-group">
-          <label for="nik_almarhum">NIK Almarhum</label>
-          <input type="text" id="nik_almarhum" name="nik_almarhum">
-        </div>
-        <div class="input-group">
-          <label for="tanggal_meninggal">Tanggal Meninggal</label>
-          <input type="date" id="tanggal_meninggal" name="tanggal_meninggal">
-        </div>
-        <div class="input-group">
-          <label for="pukul_meninggal">Pukul</label>
-          <input type="text" id="pukul_meninggal" name="pukul_meninggal" placeholder="14.00 WIB">
-        </div>
-        <div class="input-group">
-          <label for="tempat_meninggal">Tempat Meninggal</label>
-          <input type="text" id="tempat_meninggal" name="tempat_meninggal">
-        </div>
-
-        <h5>Data Pelapor</h5>
-        <div class="input-group">
-          <label for="nama_pelapor">Nama Pelapor</label>
-          <input type="text" id="nama_pelapor" name="nama_pelapor">
-        </div>
-        <div class="input-group">
-          <label for="hubungan_pelapor">Hubungan Pelapor</label>
-          <input type="text" id="hubungan_pelapor" name="hubungan_pelapor" placeholder="Anak / Istri / Saudara">
-        </div>
-        <div class="input-group">
-          <label for="alamat_pelapor">Alamat Pelapor</label>
-          <input type="text" id="alamat_pelapor" name="alamat_pelapor">
-        </div>
-      </div>
-
-      <!-- Penandatangan dan opsi -->
-      <div class="input-group" style="grid-column: 1 / -1;">
-        <label for="nama_penandatangan">Nama Penandatangan</label>
-        <input type="text" id="nama_penandatangan" name="nama_penandatangan" placeholder="TRI MULYONO">
-      </div>
-
-      <div class="input-group">
-        <label for="jabatan_penandatangan">Jabatan Penandatangan</label>
-        <input type="text" id="jabatan_penandatangan" name="jabatan_penandatangan" placeholder="Kepala Desa">
-      </div>
-
-      <div class="input-group" style="align-self:center;">
-        <label><input type="checkbox" name="to_pdf" value="1"> Buat PDF setelah generate</label>
-      </div>
+            <section class="content-box">
+                <h2>Buat Surat Baru</h2>
+                <p>Isi form di bawah ini untuk membuat surat keterangan domisili.</p>
+                <form style="margin-top: 20px;">
+                    <div class="form-grid">
+                        <div class="input-group">
+                            <label for="nama">Nama Lengkap Warga</label>
+                            <input type="text" id="nama" placeholder="Masukkan nama...">
+                        </div>
+                        <div class="input-group">
+                            <label for="nik">Nomor Induk Kependudukan (NIK)</label>
+                            <input type="text" id="nik" placeholder="Masukkan NIK...">
+                        </div>
+                        <div class="input-group">
+                            <label for="alamat">Alamat Lengkap</label>
+                            <input type="text" id="alamat" placeholder="Masukkan alamat...">
+                        </div>
+                        <div class="input-group">
+                            <label for="keperluan">Keperluan Surat</label>
+                            <input type="text" id="keperluan" placeholder="Contoh: Mengurus KTP">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary" style="margin-top: 20px;">
+                        <i class="fa-solid fa-file-pen"></i> Buat & Cetak Surat
+                    </button>
+                </form>
+            </section>
+        </main>
     </div>
-
-    <button type="submit" class="btn-primary" style="margin-top:20px;">
-      <i class="fa-solid fa-file-pen"></i> Buat & Cetak Surat
-    </button>
-  </form>
-</section>
-
-<script>
-  // JS sederhana untuk show/hide group sesuai jenis surat
-  const jenisSelect = document.getElementById('jenis_surat');
-  const groups = {
-    domisili: document.querySelectorAll('.group-domisili'),
-    sktm: document.querySelectorAll('.group-sktm'),
-    sku: document.querySelectorAll('.group-sku'),
-    kematian: document.querySelectorAll('.group-kematian')
-  };
-
-  function hideAll() {
-    Object.values(groups).forEach(nlist => {
-      nlist.forEach(el => el.style.display = 'none');
-      nlist.forEach(el => {
-        // remove required attribute for inputs inside hidden groups
-        el.querySelectorAll('input, select, textarea').forEach(inp => inp.required = false);
-      });
-    });
-  }
-
-  function showFor(type) {
-    const list = groups[type] || [];
-    list.forEach(el => {
-      el.style.display = 'grid';
-      el.querySelectorAll('input, select, textarea').forEach(inp => {
-        // make fields required only for some critical fields (adjust as needed)
-        if (inp.name === 'nama_pemohon' || inp.name === 'nama' || inp.name.endsWith('_pemilik') || inp.name === 'nama_almarhum') {
-          inp.required = true;
-        }
-      });
-    });
-  }
-
-  jenisSelect.addEventListener('change', () => {
-    hideAll();
-    showFor(jenisSelect.value);
-  });
-
-  // inisialisasi saat load
-  document.addEventListener('DOMContentLoaded', () => {
-    hideAll();
-    showFor(jenisSelect.value);
-  });
-</script>
+</body>
+</html>
