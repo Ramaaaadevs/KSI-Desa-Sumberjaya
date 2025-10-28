@@ -3,59 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manajemen Surat - Desa Sumber Jaya</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Template Surat - Desa Sumber Jaya</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="wrapper">
-        <nav class="sidebar">
-            <div class="sidebar-header">
-                <h2><i class="fa-solid fa-landmark"></i> Sumber Jaya</h2>
-            </div>
-            <ul class="sidebar-menu">
-                <li><a href="dashboard.html"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
-                <li><a href="surat.html" class="active"><i class="fa-solid fa-envelope"></i> Manajemen Surat</a></li>
-                <li><a href="arsip.html"><i class="fa-solid fa-folder-open"></i> Arsip Digital</a></li>
-                <li><a href="#"><i class="fa-solid fa-users"></i> Manajemen Warga</a></li>
-                <li><a href="#"><i class="fa-solid fa-gear"></i> Pengaturan</a></li>
-                <li class="logout"><a href="login.html"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
-            </ul>
-        </nav>
 
-        <main class="main-content">
-            <header>
-                <h1>Manajemen Surat</h1>
-                <p>Buat surat baru berdasarkan template atau lihat riwayat surat yang pernah dibuat.</p>
-            </header>
+    <nav class="top-navbar">
+        <div class="navbar-brand">
+            <h2><a href="/dashboard">Arsip Desa</a></h2>
+        </div>
+        <ul class="navbar-menu">
+            <li><a href="/dashboard"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
+            <li><a href="/arsip-digital"><i class="fa-solid fa-folder-open"></i> Arsip Digital</a></li>
+            <li><a href="/manajemen-surat" class="active"><i class="fa-solid fa-envelope"></i> Template Surat</a></li>
+        </ul>
+        <div class="navbar-logout">
+            <a href="/" class="btn-logout"><i class="fa-solid fa-right-from-bracket"></i> Keluar</a>
+        </div>
+    </nav>
+    
+    <main class="main-content">
+        <header>
+            <h1>Template Surat</h1>
+            <p>Kelola template surat desa Anda.</p>
+        </header>
 
-            <section class="content-box">
-                <h2>Buat Surat Baru</h2>
-                <p>Isi form di bawah ini untuk membuat surat keterangan domisili.</p>
-                <form style="margin-top: 20px;">
-                    <div class="form-grid">
-                        <div class="input-group">
-                            <label for="nama">Nama Lengkap Warga</label>
-                            <input type="text" id="nama" placeholder="Masukkan nama...">
-                        </div>
-                        <div class="input-group">
-                            <label for="nik">Nomor Induk Kependudukan (NIK)</label>
-                            <input type="text" id="nik" placeholder="Masukkan NIK...">
-                        </div>
-                        <div class="input-group">
-                            <label for="alamat">Alamat Lengkap</label>
-                            <input type="text" id="alamat" placeholder="Masukkan alamat...">
-                        </div>
-                        <div class="input-group">
-                            <label for="keperluan">Keperluan Surat</label>
-                            <input type="text" id="keperluan" placeholder="Contoh: Mengurus KTP">
-                        </div>
+        <section class="content-box mb-4">
+            <h2 class="h5 mb-3">Buat Template Baru</h2>
+            <p class="text-muted small">Gunakan [NAMA] sebagai placeholder yang akan diganti otomatis.</p>
+            
+            <form action="#" method="POST" class="form-template mt-3">
+                <div class="mb-3">
+                    <label for="template_name" class="form-label fw-bold">Nama Template</label>
+                    <input type="text" class="form-control" id="template_name" name="template_name" placeholder="Contoh: Surat Keterangan Domisili" required>
+                </div>
+                <div class="mb-3">
+                    <label for="template_content" class="form-label fw-bold">Isi Template</label>
+                    <textarea class="form-control" id="template_content" name="template_content" rows="6" placeholder="Contoh:&#10;Kepada Yth.&#10;Saudara/i [NAMA]&#10;&#10;Dengan hormat,&#10;Kami yang bertanda tangan di bawah ini..."></textarea>
+                </div>
+                <div class="text-end">
+                    <button type="submit" class="btn-primary">Simpan Template</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="content-box">
+            <h2 class="h5 mb-3">Daftar Template</h2>
+            
+            <div class="template-grid">
+                <div class="template-card">
+                    <div class="template-card-body">
+                        <h6>saya</h6>
+                        <p>harusnya anda yo nadak tau..</p>
                     </div>
-                    <button type="submit" class="btn-primary" style="margin-top: 20px;">
-                        <i class="fa-solid fa-file-pen"></i> Buat & Cetak Surat
-                    </button>
-                </form>
-            </section>
-        </main>
-    </div>
+                    <div class="template-card-actions">
+                        <button class="btn-primary">Gunakan</button>
+                        <a href="#" class="btn-icon btn-icon-danger" title="Hapus">
+                            <i class="fa-solid fa-trash-alt"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="template-card">
+                    <div class="template-card-body">
+                        <h6>Surat Keterangan Domisili</h6>
+                        <p>Yang bertanda tangan di bawah ini Kepala Desa Sumber Jaya, menerangkan dengan sesungguhnya bahwa: [NAMA]...</p>
+                    </div>
+                    <div class="template-card-actions">
+                        <button class="btn-primary">Gunakan</button>
+                        <a href="#" class="btn-icon btn-icon-danger" title="Hapus">
+                            <i class="fa-solid fa-trash-alt"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
 </body>
 </html>

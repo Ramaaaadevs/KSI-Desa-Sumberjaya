@@ -7,28 +7,31 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <div class="wrapper">
-        <nav class="sidebar">
-            <div class="sidebar-header">
-                <h2><i class="fa-solid fa-landmark"></i> Sumber Jaya</h2>
-            </div>
-            <ul class="sidebar-menu">
-                <li><a href="/dashboard" class="active"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
-                <li><a href="/arsip-digital"><i class="fa-solid fa-folder-open"></i> Arsip Digital</a></li>
-                <li><a href="/manajemen-surat"><i class="fa-solid fa-envelope"></i> Manajemen Surat</a></li>
-                <li class="logout"><a href="/"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
-            </ul>
-        </nav>
-        <main class="main-content">
-            <header>
-                <h1>Dashboard</h1>
-                <p>Selamat datang di Sistem Arsip Digital & Manajemen Surat Desa Sumber Jaya.</p>
-            </header>
-            <section class="content-box">
-                <h2>Ringkasan</h2>
-                <p>Silakan pilih menu di samping untuk memulai pekerjaan.</p>
-            </section>
-        </main>
-    </div>
+
+    <nav class="top-navbar">
+        <div class="navbar-brand">
+            <h2><a href="/dashboard">Arsip Desa</a></h2>
+        </div>
+        <ul class="navbar-menu">
+            <li><a href="/dashboard" class="active"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
+            <li><a href="/arsip-digital"><i class="fa-solid fa-folder-open"></i> Arsip Digital</a></li>
+            <li><a href="/manajemen-surat"><i class="fa-solid fa-envelope"></i> Manajemen Surat</a></li>
+        </ul>
+        <div class="navbar-logout">
+            <a href="/" class="btn-logout"><i class="fa-solid fa-right-from-bracket"></i> Keluar</a>
+        </div>
+    </nav>
+    
+    <main class="main-content">
+        <header>
+            <h1>Dashboard</h1>
+            <p>Selamat datang di Sistem Arsip Digital & Manajemen Surat Desa Sumber Jaya.</p>
+        </header>
+        <section class="content-box">
+            <h2>Ringkasan</h2>
+            <p>Silakan pilih menu di atas untuk memulai pekerjaan.</p>
+        </section>
+    </main>
+    
 </body>
 </html>

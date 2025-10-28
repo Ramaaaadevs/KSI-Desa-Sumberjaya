@@ -7,7 +7,7 @@
     --primary-color: #0056b3; /* Biru Tua */
     --secondary-color: #007bff; /* Biru Terang */
     --bg-color: #f0f2f5; /* Abu-abu terang untuk background */
-    --sidebar-bg: #1e293b; /* Biru kehitaman untuk sidebar */
+    --sidebar-bg:#00467f; /* Biru kehitaman untuk sidebar */
     --card-bg: #ffffff;
     --text-color: #334155;
     --text-light: #e2e8f0;
@@ -142,7 +142,7 @@ a {
 }
 
 .sidebar-menu a:hover, .sidebar-menu a.active {
-    background-color: #334155;
+    background-color: #00467f;
 }
 
 .logout {

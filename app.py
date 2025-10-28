@@ -51,28 +51,40 @@ def dashboard():
 
 # --- 4. RUTE-RUTE UNTUK FITUR ARSIP DIGITAL ---
 
-@app.route('/arsip-digital')
+# RUTE INI TELAH DIMODIFIKASI
+# Sekarang menangani GET (menampilkan daftar) dan POST (menambah arsip baru)
+@app.route('/arsip-digital', methods=['GET', 'POST'])
 def arsip_digital():
-    semua_dokumen = Dokumen.query.order_by(Dokumen.tanggal_upload.desc()).all()
-    return render_template('arsip.html', documents=semua_dokumen)
-
-@app.route('/tambah-arsip', methods=['GET', 'POST'])
-def tambah_arsip():
+    
+    # Logika untuk menambah arsip baru (method POST)
     if request.method == 'POST':
         file = request.files.get('file'); kategori = request.form.get('kategori'); nama_input = request.form.get('nama_dokumen', 'TANPA_NAMA').strip(); nik_input = request.form.get('nik_dokumen', '').strip()
-        if not file or file.filename == '': return "Error: Tidak ada file yang dipilih.", 400
+        
+        # Jika Anda ingin file wajib diisi, biarkan cek ini
+        if not file or file.filename == '': 
+            return "Error: Tidak ada file yang dipilih.", 400
+        
         if not nik_input: nik_input = None
+        
         final_kategori = kategori
         if kategori == 'LAINNYA':
             kategori_lainnya_value = request.form.get('kategori_lainnya', '').strip().upper()
             if kategori_lainnya_value: final_kategori = kategori_lainnya_value.replace(" ", "_")
+            
         timestamp = datetime.now().strftime('%Y-%m-%d_%H%M%S'); nama_file_safe = nama_input.upper().replace(" ", "_"); ext = os.path.splitext(file.filename)[1]
         new_filename = f"{final_kategori}_{nama_file_safe}_{timestamp}{ext}"
         file.save(os.path.join(app.config['ARCHIVE_FOLDER'], new_filename))
+        
         dokumen_baru = Dokumen(nama_arsip=new_filename, nama_dokumen=nama_input, nik_dokumen=nik_input, kategori=final_kategori)
         db.session.add(dokumen_baru); db.session.commit()
-        return redirect(url_for('arsip_digital'))
-    return render_template('tambah_arsip.html')
+        
+        return redirect(url_for('arsip_digital')) # Kembali ke halaman arsip
+
+    # Logika untuk menampilkan halaman (method GET)
+    semua_dokumen = Dokumen.query.order_by(Dokumen.tanggal_upload.desc()).all()
+    return render_template('arsip.html', documents=semua_dokumen)
+
+# RUTE /tambah-arsip SUDAH DIHAPUS, KARENA FUNGSINYA DIGABUNG KE /arsip-digital
 
 @app.route('/api/search')
 def search_api():
@@ -80,7 +92,11 @@ def search_api():
     if not query: return jsonify([])
     pattern = f"%{query}%"
     hasil = Dokumen.query.filter(or_(Dokumen.nama_dokumen.like(pattern), Dokumen.nik_dokumen.like(pattern), Dokumen.kategori.like(pattern))).limit(20).all()
-    return jsonify([{"nama_arsip": doc.nama_arsip, "kategori": doc.kategori} for doc in hasil])
+    # Modifikasi agar nama_dokumen juga dikirim ke API
+    return jsonify([
+        {"nama_arsip": doc.nama_arsip, "nama_dokumen": doc.nama_dokumen, "kategori": doc.kategori} 
+        for doc in hasil
+    ])
 
 @app.route('/arsip/<filename>')
 def serve_archived_file(filename):

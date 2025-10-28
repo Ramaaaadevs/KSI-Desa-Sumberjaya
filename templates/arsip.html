@@ -5,37 +5,150 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arsip Digital - Desa Sumber Jaya</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="wrapper">
-        <nav class="sidebar">
-            <div class="sidebar-header">
-                <h2><i class="fa-solid fa-landmark"></i> Sumber Jaya</h2>
+
+    <nav class="top-navbar">
+        <div class="navbar-brand"><h2><a href="/dashboard">Arsip Desa</a></h2></div>
+        <ul class="navbar-menu">
+            <li><a href="/dashboard"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
+            <li><a href="/arsip-digital" class="active"><i class="fa-solid fa-folder-open"></i> Arsip Digital</a></li>
+            <li><a href="/manajemen-surat"><i class="fa-solid fa-envelope"></i> Manajemen Surat</a></li>
+        </ul>
+        <div class="navbar-logout"><a href="/" class="btn-logout"><i class="fa-solid fa-right-from-bracket"></i> Keluar</a></div>
+    </nav>
+
+    <main class="main-content">
+        <header>
+            <h1>Arsip Digital</h1>
+            <p>Kelola semua dokumen dan arsip digital desa.</p>
+        </header>
+
+        <section class="content-box mb-4">
+            <h2 class="h5 mb-3">Upload Dokumen Baru</h2>
+            <form action="/arsip-digital" method="POST" enctype="multipart/form-data">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label for="file" class="form-label">1. Pilih File (Wajib)</label>
+                        <input class="form-control" type="file" id="file" name="file" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="kategoriSelect" class="form-label">2. Kategori</label>
+                        <select class="form-select" id="kategoriSelect" name="kategori" required>
+                            <option selected disabled value="">-- Pilih Kategori --</option>
+                            <option value="KTP">KTP</option>
+                            <option value="KK">Kartu Keluarga</option>
+                            <option value="AKTA_KELAHIRAN">Akta Kelahiran</option>
+                            <option value="SURAT_KETERANGAN">Surat Keterangan</option>
+                            <option value="LAINNYA">Lainnya...</option>
+                        </select>
+                    </div>
+                    <div id="kategoriLainnyaWrapper" class="col-md-6" style="display: none;">
+                        <label for="kategoriLainnyaInput" class="form-label">Sebutkan Kategori</label>
+                        <input type="text" class="form-control" id="kategoriLainnyaInput" name="kategori_lainnya" placeholder="Contoh: Surat Nikah">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="nama_dokumen" class="form-label">3. Nama Dokumen (Wajib)</label>
+                        <input type="text" class="form-control" id="nama_dokumen" name="nama_dokumen" placeholder="Contoh: Surat Keterangan Domisili" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="nik_dokumen" class="form-label">4. NIK (Opsional)</label>
+                        <input type="text" class="form-control" id="nik_dokumen" name="nik_dokumen" placeholder="Masukkan NIK jika ada...">
+                    </div>
+                    <div class="col-12 text-end">
+                        <button type="submit" class="btn-primary">Upload dan Arsipkan</button>
+                    </div>
+                </div>
+            </form>
+        </section>
+
+        <section class="content-box mb-4">
+            <h2 class="h5 mb-3">Cari Dokumen</h2>
+            <div class="input-group">
+                <span class="input-group-text"><i class="fa-solid fa-search"></i></span>
+                <input type="text" id="searchInput" class="form-control" placeholder="Ketik nama, NIK, atau kategori...">
             </div>
-            <ul class="sidebar-menu">
-                <li><a href="/dashboard"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
-                <li><a href="/arsip-digital" class="active"><i class="fa-solid fa-folder-open"></i> Arsip Digital</a></li>
-                <li><a href="/manajemen-surat"><i class="fa-solid fa-envelope"></i> Manajemen Surat</a></li>
-                <li class="logout"><a href="/"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
-            </ul>
-        </nav>
-        <main class="main-content">
-            <header><h1>Arsip Digital</h1><p>Kelola semua dokumen dan arsip digital desa.</p></header>
-            <section class="content-box">
-                <div class="table-toolbar"><p class="m-0">Total {{ documents|length }} dokumen ditemukan.</p><a href="/tambah-arsip" class="btn-primary"><i class="fa-solid fa-plus"></i> Tambah Arsip</a></div>
-                <table class="data-table">
-                    <thead><tr><th>Nama Dokumen</th><th>Kategori</th><th>NIK</th><th>Tanggal Unggah</th><th>Aksi</th></tr></thead>
-                    <tbody>
-                        {% for doc in documents %}
-                        <tr><td>{{ doc.nama_dokumen }}</td><td>{{ doc.kategori.replace("_", " ") }}</td><td>{{ doc.nik_dokumen or '-' }}</td><td>{{ doc.tanggal_upload.strftime('%d %b %Y') }}</td>
-                            <td class="action-buttons"><a href="{{ url_for('serve_archived_file', filename=doc.nama_arsip) }}" target="_blank" title="Lihat"><i class="fa-solid fa-eye"></i></a></td></tr>
-                        {% else %}
-                        <tr><td colspan="5" class="text-center py-5 text-muted">Belum ada dokumen. Klik 'Tambah Arsip' untuk memulai.</td></tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </section>
-        </main>
-    </div>
+            <div id="hasilPencarian" class="mt-3">
+                </div>
+        </section>
+
+        <section class="content-box">
+            <h2 class="h5 mb-3">Daftar Arsip (Total {{ documents|length }})</h2>
+            <div class="arsip-list">
+                {% for doc in documents %}
+                <div class="arsip-item">
+                    <div class="arsip-item-main">
+                        <div class="arsip-item-icon">
+                            <i class="fa-solid fa-file-alt"></i>
+                        </div>
+                        <div class="arsip-item-details">
+                            <h6 class="arsip-item-title">{{ doc.nama_dokumen }}</h6>
+                            <div class="arsip-item-meta">
+                                <span><i class="fa-solid fa-tag"></i> {{ doc.kategori.replace("_", " ") }}</span>
+                                {% if doc.nik_dokumen %}
+                                <span><i class="fa-solid fa-id-card"></i> NIK: {{ doc.nik_dokumen }}</span>
+                                {% endif %}
+                                <span><i class="fa-solid fa-calendar-day"></i> {{ doc.tanggal_upload.strftime('%d %B %Y') }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="arsip-item-actions">
+                        <a href="{{ url_for('serve_archived_file', filename=doc.nama_arsip) }}" target="_blank" class="btn-icon" title="Lihat/Download">
+                            <i class="fa-solid fa-download"></i>
+                        </a>
+                        <a href="#" class="btn-icon btn-icon-danger" title="Hapus">
+                            <i class="fa-solid fa-trash-alt"></i>
+                        </a>
+                    </div>
+                </div>
+                {% else %}
+                <p class="text-muted text-center py-5">Belum ada dokumen. Silakan upload terlebih dahulu.</p>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded',function(){
+        // 1. Logika untuk kategori 'Lainnya'
+        const t=document.getElementById("kategoriSelect"),e=document.getElementById("kategoriLainnyaWrapper"),n=document.getElementById("kategoriLainnyaInput");
+        t&&t.addEventListener("change",function(){"LAINNYA"===this.value?(e.style.display="block",n.required=!0):(e.style.display="none",n.required=!1)});
+        
+        // 2. Logika untuk Pencarian
+        const a=document.getElementById("searchInput"),d=document.getElementById("hasilPencarian");
+        
+        async function c(){
+            const t=a.value;
+            if(t.length < 2) {
+                d.innerHTML = ''; // Kosongkan hasil jika query pendek
+                return;
+            }
+            try{
+                const e=await fetch(`/api/search?q=${t}`),n=await e.json();
+                if(d.innerHTML="",n.length>0){
+                    // Tampilkan hasil pencarian di box pencarian
+                    let t='<ul class="list-group list-group-flush">';
+                    n.forEach(e=>{t+=`<li class="list-group-item d-flex justify-content-between align-items-center"><div><span class="fw-bold">${e.nama_arsip}</span><br><small class="badge bg-secondary">${e.kategori.replace("_"," ")}</small></div><a href="/arsip/${e.nama_arsip}" class="btn btn-sm btn-outline-success" target="_blank">Lihat File</a></li>`}),
+                    t+="</ul>",d.innerHTML=t
+                } else {
+                    d.innerHTML='<p class="text-danger text-center pt-3">Dokumen tidak ditemukan.</p>'
+                }
+            } catch(t) {
+                console.error("Error:",t)
+            }
+        }
+        
+        // Memicu pencarian saat mengetik (setelah 2 karakter) atau menekan Enter
+        a&&a.addEventListener("keyup",t=>{
+            if (t.key==="Enter" || a.value.length > 2) {
+                c();
+            }
+            if (a.value.length < 2) {
+                d.innerHTML = ''; // Bersihkan jika dihapus
+            }
+        })
+    });
+    </script>
 </body>
 </html>
