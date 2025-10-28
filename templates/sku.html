@@ -1,0 +1,33 @@
+{% extends "surat_base.html" %}
+{% block isi %}
+<p>
+  Kepala Desa {{ data.get('desa','Sumber Jaya') }} Kecamatan {{ data.get('kecamatan','Jati Agung') }}
+  Kabupaten {{ data.get('kabupaten','Lampung Selatan') }} dengan ini menerangkan bahwa:
+</p>
+
+<table class="info">
+  <tr><td width="170">Nama</td><td>:</td><td>{{ data.get('nama_pemilik','-') }}</td></tr>
+  <tr><td>NIK</td><td>:</td><td>{{ data.get('nik_pemilik','-') }}</td></tr>
+  <tr><td>Tempat / Tanggal Lahir</td><td>:</td><td>{{ data.get('tempat_lahir','-') }} , {{ data.get('tanggal_lahir','-') }}</td></tr>
+  <tr><td>Jenis Kelamin</td><td>:</td><td>{{ data.get('jenis_kelamin','-') }}</td></tr>
+  <tr><td>Agama</td><td>:</td><td>{{ data.get('agama','-') }}</td></tr>
+  <tr><td>Pekerjaan</td><td>:</td><td>{{ data.get('pekerjaan','-') }}</td></tr>
+  <tr><td>Alamat</td><td>:</td><td>{{ data.get('alamat_usaha','-') }}</td></tr>
+</table>
+
+<p style="margin-top:12px;">
+  Menurut data dan pengamatan kami, yang bersangkutan mempunyai usaha dengan identitas sebagai berikut:
+</p>
+
+<table class="info">
+  <tr><td width="170">Nama Usaha</td><td>:</td><td>{{ data.get('nama_usaha','-') }}</td></tr>
+  <tr><td>Bidang Usaha</td><td>:</td><td>{{ data.get('bidang_usaha','-') }}</td></tr>
+  <tr><td>Alamat Usaha</td><td>:</td><td>{{ data.get('alamat_usaha','-') }}</td></tr>
+  <tr><td>Tahun Operasi</td><td>:</td><td>{{ data.get('tahun_operasi','-') }}</td></tr>
+  <tr><td>Lain-lain</td><td>:</td><td>{{ data.get('lain_lain','-') }}</td></tr>
+</table>
+
+<p style="margin-top:12px;">
+  Demikian Surat Keterangan Usaha ini dibuat dengan sebenarnya untuk dipergunakan sebagaimana mestinya.
+</p>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "surat_base.html" %}
+{% block isi %}
+<p>
+  Saya yang bertanda tangan di bawah ini, Kepala Desa {{ data.get('desa','Sumber Jaya') }}, Kecamatan {{ data.get('kecamatan','Jati Agung') }},
+  Kabupaten {{ data.get('kabupaten','Lampung Selatan') }}, menerangkan bahwa:
+</p>
+
+<table class="info">
+  <tr><td width="170">Nama</td><td>:</td><td>{{ data.get('nama_almarhum','-') }}</td></tr>
+  <tr><td>NIK</td><td>:</td><td>{{ data.get('nik_almarhum','-') }}</td></tr>
+  <tr><td>Jenis Kelamin</td><td>:</td><td>{{ data.get('jenis_kelamin_almarhum','-') }}</td></tr>
+  <tr><td>Tempat / Tgl Lahir</td><td>:</td><td>{{ data.get('tempat_lahir_almarhum','-') }} , {{ data.get('tanggal_lahir_almarhum','-') }}</td></tr>
+  <tr><td>Pekerjaan</td><td>:</td><td>{{ data.get('pekerjaan_almarhum','-') }}</td></tr>
+  <tr><td>Alamat</td><td>:</td><td>{{ data.get('alamat_almarhum','-') }}</td></tr>
+</table>
+
+<p style="margin-top:12px;">
+  Telah meninggal dunia pada :
+</p>
+
+<table class="info">
+  <tr><td width="170">Hari, Tanggal</td><td>:</td><td>{{ data.get('hari_meninggal','-') }}, {{ data.get('tanggal_meninggal','-') }}</td></tr>
+  <tr><td>Pukul</td><td>:</td><td>{{ data.get('pukul_meninggal','-') }}</td></tr>
+  <tr><td>Bertempat di</td><td>:</td><td>{{ data.get('tempat_meninggal','-') }}</td></tr>
+  <tr><td>Dimakamkan di</td><td>:</td><td>{{ data.get('tempat_pemakaman','-') }}</td></tr>
+</table>
+
+<p style="margin-top:12px;">
+  Surat keterangan ini dibuat berdasarkan keterangan pelapor:
+</p>
+
+<table class="info">
+  <tr><td width="170">Nama Pelapor</td><td>:</td><td>{{ data.get('nama_pelapor','-') }}</td></tr>
+  <tr><td>Jenis Kelamin</td><td>:</td><td>{{ data.get('jenis_kelamin_pelapor','-') }}</td></tr>
+  <tr><td>Tempat/Tgl Lahir</td><td>:</td><td>{{ data.get('tempat_lahir_pelapor','-') }}, {{ data.get('tanggal_lahir_pelapor','-') }}</td></tr>
+  <tr><td>Umur</td><td>:</td><td>{{ data.get('umur_pelapor','-') }}</td></tr>
+  <tr><td>Agama</td><td>:</td><td>{{ data.get('agama_pelapor','-') }}</td></tr>
+  <tr><td>Pekerjaan</td><td>:</td><td>{{ data.get('pekerjaan_pelapor','-') }}</td></tr>
+  <tr><td>Alamat Pelapor</td><td>:</td><td>{{ data.get('alamat_pelapor','-') }}</td></tr>
+  <tr><td>Hubungan</td><td>:</td><td>{{ data.get('hubungan_pelapor','-') }}</td></tr>
+</table>
+
+<p style="margin-top:12px;">
+  Demikian surat keterangan kematian ini dibuat dengan sebenar-benarnya agar dapat dipergunakan sebagaimana mestinya.
+</p>
+{% endblock %}

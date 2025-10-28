@@ -3,6 +3,19 @@ from datetime import datetime
 from flask import Flask, request, render_template, redirect, url_for, jsonify, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import or_
+import json
+from flask import send_file, flash
+from markupsafe import Markup
+# optional PDF engine
+try:
+    from weasyprint import HTML
+    WEASYPRINT_AVAILABLE = True
+except Exception:
+    WEASYPRINT_AVAILABLE = False
+
+# folder output untuk surat yang di-generate
+GENERATED_DIR = os.path.join(os.path.dirname(__file__), "generated_surats")
+os.makedirs(GENERATED_DIR, exist_ok=True)
 
 # --- 1. KONFIGURASI APLIKASI DAN DATABASE ---
 app = Flask(__name__)
@@ -34,6 +47,7 @@ class Surat(db.Model):
     nik_pemohon = db.Column(db.String(20))
     keperluan = db.Column(db.Text)
     tanggal_dibuat = db.Column(db.DateTime, default=datetime.utcnow)
+    data = db.Column(db.Text)
 
 
 # --- 3. RUTE UTAMA & DASHBOARD ---
@@ -92,13 +106,72 @@ def serve_archived_file(filename):
 @app.route('/manajemen-surat', methods=['GET', 'POST'])
 def manajemen_surat():
     if request.method == 'POST':
-        jenis = request.form.get('jenis_surat'); nama = request.form.get('nama_pemohon').strip(); nik = request.form.get('nik_pemohon', '').strip(); keperluan = request.form.get('keperluan', '').strip()
-        today_str = datetime.now().strftime('%Y-%m-%d')
-        count_today = Surat.query.filter(db.func.date(Surat.tanggal_dibuat) == datetime.now().date()).count() + 1
+        # ambil semua field form ke dict (termasuk hidden jenis_surat)
+        payload = {k: v for k, v in request.form.items()}
+
+        jenis = payload.get('jenis_surat', '').strip()
+        nama = payload.get('nama_pemohon') or payload.get('nama') or payload.get('nama_pemilik') or ''
+        nik = payload.get('nik_pemohon') or payload.get('nik') or payload.get('nik_pemilik') or ''
+
+        # buat nomor surat otomatis: JENIS/YYYY-MM-DD/NNN
+        today = datetime.now().date()
+        today_str = today.strftime('%Y-%m-%d')
+        count_today = Surat.query.filter(db.func.date(Surat.tanggal_dibuat) == today).count() + 1
         nomor_surat = f"{jenis.upper()}/{today_str}/{str(count_today).zfill(3)}"
-        surat_baru = Surat(nomor_surat=nomor_surat, jenis_surat=jenis, nama_pemohon=nama, nik_pemohon=nik if nik else None, keperluan=keperluan)
-        db.session.add(surat_baru); db.session.commit()
-        return redirect(url_for('lihat_arsip_surat', id=surat_baru.id))
+
+        # simpan ke DB (data sebagai JSON)
+        surat_baru = Surat(
+            nomor_surat=nomor_surat,
+            jenis_surat=jenis,
+            nama_pemohon=nama,
+            nik_pemohon=nik if nik else None,
+            keperluan=payload.get('keperluan',''),
+            data=json.dumps(payload, ensure_ascii=False)
+        )
+        db.session.add(surat_baru)
+        db.session.commit()
+
+        # pilih template berdasarkan jenis
+        tmpl_map = {
+            "domisili": "surat_domisili.html",
+            "sktm": "sktm.html",
+            "sku": "sku.html",
+            "kematian": "surat_kematian.html",
+        }
+        template_name = tmpl_map.get(jenis.lower(), "surat_domisili.html")
+
+        # render HTML dari template
+        try:
+            data_payload = json.loads(surat_baru.data)
+        except Exception:
+            data_payload = payload
+
+        html_str = render_template(template_name, surat=surat_baru, data=data_payload)
+
+        # simpan HTML ke file
+        safe_fn = nomor_surat.replace("/", "_")
+        html_path = os.path.join(GENERATED_DIR, f"{safe_fn}.html")
+        with open(html_path, "w", encoding="utf-8") as f:
+            f.write(html_str)
+
+        # jika form memiliki input checkbox name="to_pdf" value="1", buat PDF
+        do_pdf = request.form.get("to_pdf") == "1"
+        pdf_path = None
+        if do_pdf:
+            if not WEASYPRINT_AVAILABLE:
+                flash("WeasyPrint tidak terpasang di server — PDF tidak dibuat.", "warning")
+            else:
+                pdf_path = os.path.join(GENERATED_DIR, f"{safe_fn}.pdf")
+                HTML(string=html_str).write_pdf(pdf_path)
+
+        # tampilkan preview dan link download
+        results = [{"type": "html", "path": os.path.basename(html_path)}]
+        if pdf_path:
+            results.append({"type": "pdf", "path": os.path.basename(pdf_path)})
+
+        return render_template("mailmerge_result.html", results=results, preview_html=Markup(html_str))
+
+    # GET: tampilkan halaman form (pastikan surat.html ada di templates/)
     return render_template('surat.html')
 
 @app.route('/api/search-surat')
@@ -108,6 +181,13 @@ def search_surat_api():
     pattern = f"%{query}%"
     hasil = Surat.query.filter(or_(Surat.nama_pemohon.like(pattern), Surat.nik_pemohon.like(pattern), Surat.nomor_surat.like(pattern))).order_by(Surat.tanggal_dibuat.desc()).limit(20).all()
     return jsonify([{"id": s.id, "nomor_surat": s.nomor_surat, "nama_pemohon": s.nama_pemohon, "jenis_surat": s.jenis_surat} for s in hasil])
+
+@app.route('/generated/<path:filename>')
+def download_generated(filename):
+    path = os.path.join(GENERATED_DIR, filename)
+    if not os.path.isfile(path):
+        return "File tidak ditemukan.", 404
+    return send_file(path, as_attachment=True, download_name=filename)
 
 @app.route('/surat/arsip/<int:id>')
 def lihat_arsip_surat(id):

@@ -1,0 +1,29 @@
+{% extends "surat_base.html" %}
+{% block isi %}
+<p>
+  Yang bertanda tangan di bawah ini, <strong>{{ data.get('jabatan_penandatangan','Penjabat Kepala Desa Sumber Jaya') }}</strong>
+  Kecamatan {{ data.get('kecamatan','Jati Agung') }} Kabupaten {{ data.get('kabupaten','Lampung Selatan') }},
+  menerangkan bahwa:
+</p>
+
+<table class="info">
+  <tr><td width="160">Nama</td><td>:</td><td>{{ data.get('nama_pemohon','-') }}</td></tr>
+  <tr><td>NIK</td><td>:</td><td>{{ data.get('nik_pemohon','-') }}</td></tr>
+  <tr><td>Tempat / Tanggal Lahir</td><td>:</td><td>{{ data.get('tempat_lahir','-') }} , {{ data.get('tanggal_lahir','-') }}</td></tr>
+  <tr><td>Jenis Kelamin</td><td>:</td><td>{{ data.get('jenis_kelamin','-') }}</td></tr>
+  <tr><td>Agama</td><td>:</td><td>{{ data.get('agama','-') }}</td></tr>
+  <tr><td>Status Perkawinan</td><td>:</td><td>{{ data.get('status_perkawinan','-') }}</td></tr>
+  <tr><td>Pekerjaan</td><td>:</td><td>{{ data.get('pekerjaan','-') }}</td></tr>
+  <tr><td>Alamat</td><td>:</td><td>{{ data.get('alamat_lengkap','-') }}</td></tr>
+</table>
+
+<p style="margin-top:12px;">
+  Adalah benar penduduk Desa {{ data.get('desa','Sumber Jaya') }} yang sesuai dengan identitas tersebut di atas
+  dan berdomisili / bertempat tinggal di Desa {{ data.get('desa','Sumber Jaya') }} secara terus menerus hingga sekarang.
+</p>
+
+<p>
+  Demikian surat keterangan ini dibuat dengan sebenarnya untuk dapat dipergunakan
+  sebagaimana mestinya.
+</p>
+{% endblock %}

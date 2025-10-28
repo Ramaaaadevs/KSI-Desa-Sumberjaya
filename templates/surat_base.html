@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>{{ judul | default('Surat') }} - {{ surat.nomor_surat if surat else data.get('nomor','') }}</title>
+  <style>
+    body { font-family: "Times New Roman", serif; margin: 40px; color:#000; line-height:1.45; }
+    .kop { text-align:center; font-weight:bold; }
+    .judul { text-align:center; margin-top:10px; text-decoration:underline; font-size:18px; }
+    .meta { margin-top:8px; }
+    .content { margin-top:18px; }
+    table.info { margin-top:8px; border-collapse: collapse; }
+    table.info td { vertical-align: top; padding: 2px 6px; }
+    .ttd { margin-top:40px; width:100%; }
+    .ttd .left { float:left; width:50%; text-align:left; }
+    .ttd .right { float:right; width:50%; text-align:center; }
+    .clear { clear: both; }
+    .small { font-size:12px; }
+  </style>
+</head>
+<body>
+  <div class="kop">
+    <div>{{ data.get('instansi_atas','PEMERINTAH KABUPATEN') }}</div>
+    <div>{{ data.get('instansi_tengah','KECAMATAN') }}</div>
+    <div>{{ data.get('desa', 'DESA SUMBER JAYA') }}</div>
+  </div>
+
+  <div class="judul">
+    {{ judul | default('SURAT KETERANGAN') }}
+  </div>
+
+  <div class="meta small">
+    Nomor : <strong>{{ surat.nomor_surat if surat else data.get('nomor','-') }}</strong>
+  </div>
+
+  <div class="content">
+    {% block isi %}{% endblock %}
+  </div>
+
+  <div class="ttd">
+    <div class="left">
+      <p>{{ data.get('tempat_ttd', 'Sumber Jaya') }}, {{ surat.tanggal_dibuat.strftime('%d %B %Y') if surat else data.get('tanggal_terbit','') }}</p>
+      <p class="small">Yang bersangkutan,</p>
+      <br><br><br>
+      <p><strong>{{ data.get('nama_pemohon','-') }}</strong></p>
+    </div>
+
+    <div class="right">
+      <p class="small">{{ data.get('jabatan_penandatangan','Kepala Desa') }}</p>
+      <br><br><br>
+      <p><strong>{{ data.get('nama_penandatangan','TRI MULYONO') }}</strong></p>
+      <p class="small">{{ data.get('nip_penandatangan','') }}</p>
+    </div>
+    <div class="clear"></div>
+  </div>
+</body>
+</html>

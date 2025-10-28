@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hasil Pembuatan Surat</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; background: #f8f9fa; }
+    h1 { font-size: 22px; margin-bottom: 10px; }
+    h2 { margin-top: 30px; }
+    .card {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: 20px;
+      margin-top: 20px;
+    }
+    .preview-box {
+      border: 1px solid #ccc;
+      background: #fff;
+      padding: 15px;
+      max-height: 600px;
+      overflow-y: auto;
+    }
+    .file-links a {
+      display: inline-block;
+      margin-right: 10px;
+      background: #007bff;
+      color: white;
+      text-decoration: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+    }
+    .file-links a:hover {
+      background: #0056b3;
+    }
+    .back-link {
+      display: inline-block;
+      margin-top: 25px;
+      text-decoration: none;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <h1>✅ Surat Berhasil Dibuat</h1>
+  <p>Berikut hasil generate surat yang kamu buat.</p>
+
+  <div class="card">
+    <h2>Preview Surat</h2>
+    <div class="preview-box">
+      {{ preview_html | safe }}
+    </div>
+
+    <h2>File yang Dihasilkan</h2>
+    <div class="file-links">
+      {% for item in results %}
+        <a href="{{ url_for('download_generated', filename=item.path) }}" target="_blank">
+          Unduh {{ item.type.upper() }}
+        </a>
+      {% endfor %}
+    </div>
+
+    <a class="back-link" href="{{ url_for('manajemen_surat') }}">← Kembali ke Manajemen Surat</a>
+  </div>
+</body>
+</html>

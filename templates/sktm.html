@@ -1,0 +1,26 @@
+{% extends "surat_base.html" %}
+{% block isi %}
+<p>
+  Kepala Desa {{ data.get('desa','Sumber Jaya') }} Kecamatan {{ data.get('kecamatan','Jati Agung') }}
+  Kabupaten {{ data.get('kabupaten','Lampung Selatan') }}, dengan ini menerangkan bahwa:
+</p>
+
+<table class="info">
+  <tr><td width="160">Nama</td><td>:</td><td>{{ data.get('nama','-') }}</td></tr>
+  <tr><td>Tempat / Tanggal Lahir</td><td>:</td><td>{{ data.get('tempat_lahir','-') }} , {{ data.get('tanggal_lahir','-') }}</td></tr>
+  <tr><td>Jenis Kelamin</td><td>:</td><td>{{ data.get('jenis_kelamin','-') }}</td></tr>
+  <tr><td>Agama</td><td>:</td><td>{{ data.get('agama','-') }}</td></tr>
+  <tr><td>Pekerjaan</td><td>:</td><td>{{ data.get('pekerjaan','-') }}</td></tr>
+  <tr><td>Alamat</td><td>:</td><td>{{ data.get('alamat_lengkap','-') }}</td></tr>
+</table>
+
+<p style="margin-top:12px;">
+  Adalah benar penduduk Desa {{ data.get('desa','Sumber Jaya') }} yang sesuai dengan identitas tersebut di atas.
+  Selanjutnya menurut data dan pengamatan kami nama tersebut tergolong dalam <strong>{{ data.get('kategori_kemiskinan','Pra Sejahtera / Rumah Tangga Miskin') }}</strong>.
+  Untuk itu kami mohon kepada pihak-pihak yang berhubungan dengan nama tersebut agar dapat membantu sebagaimana mestinya.
+</p>
+
+<p>
+  Demikian Surat Keterangan ini dibuat dengan sebenarnya untuk dapat dipergunakan sebagaimana mestinya.
+</p>
+{% endblock %}
