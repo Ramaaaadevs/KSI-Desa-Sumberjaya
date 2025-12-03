@@ -80,7 +80,18 @@ Password: password
 ```
 
 ---
-
+## Link Penting 
+1. spreadsheet data ksi: https://docs.google.com/spreadsheets/d/15wv0C9RP7HcKJzXWTkF-kZid1zG5Ff04Y6dlHKU-9nE/edit?gid=0#gid=0 (diwan)
+2. proposal : https://docs.google.com/document/d/1wA6uCeQf3gpBvlBmxeLnwY1lu-z9w_Igid8YPH-R2gg/edit?usp=sharing (zahran)
+3. ppt proposal 1 ( download jadiin pdf dari canva): https://www.canva.com/design/DAGza0wgDgg/bY1CPBoQq8Ac5I0Ztie13g/edit (jordy)
+4. dokumentasi uts ksi: https://drive.google.com/drive/folders/1slNEItA_eSq25cPtnK62zz2staQsL_8Y (dela)
+5. hasil video uts: https://drive.google.com/file/d/1z3VArV3tqUhL2PD_bttvYZGIWIPwJjmL/view (ezra)
+6. ppt 1 : (https://www.canva.com/design/DAGza0wgDgg/bY1CPBoQq8Ac5I0Ztie13g/edit)
+7. ppt 2 :  https://www.canva.com/design/DAG2r_bbQX0/x-xPzzaDWk_I23a63h6dbw/edit
+8. ppt 3 : https://www.canva.com/design/DAGza0wgDgg/bY1CPBoQq8Ac5I0Ztie13g/edit?utm_content=DAGza0wgDgg&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
+9. Poster :  https://www.canva.com/design/DAG5Ip7tWp0/Cy4I6EsWqtr-aG4ixXD-eg/edit?utm_co
+10. link repo github: https://github.com/Ramaaaadevs/KSI-Desa-Sumberjaya
+    
 ## 📚 Dokumentasi
 
 - [📖 TUTORIAL-LENGKAP.md](TUTORIAL-LENGKAP.md) - **Tutorial lengkap step-by-step dari awal**
