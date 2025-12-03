@@ -15,7 +15,7 @@
 - **Input Manual** → Upload surat existing/scan dokumen
 - Kategori surat (Masuk/Keluar)
 - Status tracking (Draft, Terkirim, Diarsipkan, Selesai)
-- Download & Print PDF
+- Download & Print pdf
 
 ### 📄 Template Surat
 - Template builder dengan Rich Text Editor
