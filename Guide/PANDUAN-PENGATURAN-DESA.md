@@ -181,4 +181,4 @@ Selain variable dari Pengaturan Desa, Anda juga bisa tambahkan variable custom d
 
 ---
 
-Selamat menggunakan! 🎉
+Selamat menggunakan GOOD! 🎉
