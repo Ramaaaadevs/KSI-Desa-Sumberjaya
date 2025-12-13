@@ -89,7 +89,7 @@ Password: password
 5. hasil video uts: https://drive.google.com/file/d/1z3VArV3tqUhL2PD_bttvYZGIWIPwJjmL/view
 6. ppt 1 : (https://www.canva.com/design/DAGza0wgDgg/bY1CPBoQq8Ac5I0Ztie13g/edit)
 7. ppt 2 : https://www.canva.com/design/DAG2r_bbQX0/x-xPzzaDWk_I23a63h6dbw/edit
-8. ppt 3 : https://www.canva.com/design/DAGza0wgDgg/bY1CPBoQq8Ac5I0Ztie13g/edit?utm_content=DAGza0wgDgg&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
+8. ppt 3 : https://www.canva.com/design/DAGza0wgDgg/bY1CPBoQq8Ac5I0Ztie13g/edit
 9. Poster : https://www.canva.com/design/DAG5Ip7tWp0/Cy4I6EsWqtr-aG4ixXD-eg/edit?utm_co
 10. link repo github: https://github.com/Ramaaaadevs/KSI-Desa-Sumberjaya
 
