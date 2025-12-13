@@ -175,9 +175,9 @@ desa_settings (singleton)
 ## 🎯 Menu Sistem
 
 ### Master Data
-- **Kategori Surat** - Manajemen kategori
-- **Template Surat** - Template builder
-- **Pengaturan Desa** - Setup desa
+- **Kategori Surat** - Manajemen Kategori
+- **Template Surat** - Template Builder
+- **Pengaturan Desa** - Setup Desa
 
 ### Surat
 - **Arsip Surat** - Generate & arsip (unified)
